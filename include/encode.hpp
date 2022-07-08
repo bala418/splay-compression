@@ -9,12 +9,6 @@ struct Node {
 };
 typedef struct Node Node;
 
-struct freq_map {
-    char character;
-    int frequency;
-};
-typedef struct freq_map freq_map;
-
 struct MinHeap {
     int size;
     int capacity;

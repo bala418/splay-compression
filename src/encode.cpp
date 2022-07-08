@@ -1,12 +1,6 @@
 #include "encode.hpp"
 #include "headers.hpp"
 
-// store char frequency for 256 characters
-freq_map m[256];
-
-// store char frequency of only the no of characters
-freq_map unique[256];
-
 // store char frequency in the nodes of heap
 Node *unique1[256];
 
@@ -116,7 +110,7 @@ void encode_file() {
     }
     printf("\nFile successfully opened");
 
-    //Reading file contents
+    // Reading file contents
     printf("\nReading file contents\n\n");
     int c = 0;
     char ch;
@@ -284,36 +278,22 @@ void encode_frequency(char *file_name) {
 
     FILE *fp;
     fp = fopen(file_name, "r");
-
-    int total_char_count = 0;
+    std::map<char, int> unique;
     unique_char_count = 0;
 
-    //initializing it to 0
-    for (int i = 0; i < 256; i++) {
-        m[i].frequency = 0;
-    }
-
     char ch;
-    int pos;
     while ((ch = fgetc(fp)) != EOF) {
-        pos = ch;
-        m[pos].character = ch;
-        m[pos].frequency++;
-        total_char_count++;
+        unique[ch]++;
     }
     fclose(fp);
 
-    // Copying the map to the final shorter map
-    for (int i = 0; i < 256; i++) {
-        if (m[i].frequency > 0) {
-            unique[unique_char_count] = m[i];
-            unique_char_count++;
-        }
-    }
     printf("\nThe hashmap of characters and their frequencies are : \n");
-    for (int i = 0; i < unique_char_count; i++) {
-        unique1[i] = create_node(unique[i].frequency, unique[i].character);
-        printf("\n%c - %d", unique[i].character, unique[i].frequency);
+
+    for (auto [k, v] : unique) {
+        unique1[unique_char_count] = create_node(v, k);
+        unique_char_count++;
+        std::cout << "\n"
+                  << k << " - " << v;
     }
     printf("\n");
     char wait2 = getchar();

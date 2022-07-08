@@ -8,7 +8,7 @@ SOURCE = $(wildcard $(SRC)/*.cpp)
 OBJECT = $(patsubst %, $(BIN)/%, $(notdir $(SOURCE:.cpp=.o)))
 
 CC = g++
-CFLAGS = -std=c++20 -I$(INC)
+CFLAGS = -std=c++20 -I$(INC) -Wall -Werror -Wextra
 
 RED = $(shell echo -e "\e[31m")
 NC = $(shell echo -e "\e[0m")
