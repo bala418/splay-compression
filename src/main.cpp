@@ -1,6 +1,6 @@
-#include "decode.h"
-#include "encode.h"
-#include "headers.h"
+#include "decode.hpp"
+#include "encode.hpp"
+#include "headers.hpp"
 
 void intro() {
     char heading[100];

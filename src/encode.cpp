@@ -1,5 +1,5 @@
-#include "encode.h"
-#include "headers.h"
+#include "encode.hpp"
+#include "headers.hpp"
 
 // store char frequency for 256 characters
 freq_map m[256];

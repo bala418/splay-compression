@@ -1,5 +1,5 @@
-#include "decode.h"
-#include "headers.h"
+#include "decode.hpp"
+#include "headers.hpp"
 
 codes1 decodes[256];
 codes1 short_map[256];
@@ -124,13 +124,8 @@ void decode_file() {
         return;
     }
 
-    FILE *qp, *rp;
-
-    if (!qp) {
-        printf("\nFile does not exist please try again\n");
-        return;
-    }
-
+    FILE *rp;
+    printf("\n%s", filename);
     printf("\nDecoded file name : uncompressed.txt\n");
 
     decode_file_2(todecode);
