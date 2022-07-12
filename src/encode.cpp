@@ -1,9 +1,6 @@
 #include "encode.hpp"
 #include "headers.hpp"
 
-// store char frequency in the nodes of heap
-Node *unique1[256];
-
 // stores code for all characters
 codes allcodes[256];
 
@@ -196,6 +193,7 @@ Node *create_node(int f, char c) {
     temp->character = c;
     temp->right = NULL;
     temp->left = NULL;
+    temp->parent = NULL;
     return temp;
 }
 
@@ -285,7 +283,6 @@ void encode_frequency(char *file_name) {
     printf("\nThe hashmap of characters and their frequencies are : \n");
 
     for (auto [k, v] : unique) {
-        unique1[unique_char_count] = create_node(v, k);
         unique2[unique_char_count] = create_node(1, k);
         unique_char_count++;
         std::cout << "\n"
@@ -299,23 +296,14 @@ MinHeap *splayHeap = nullptr;
 // function to build the heap
 MinHeap *build_heap() {
 
-    struct MinHeap *minHeap = create_min_heap(unique_char_count);
     splayHeap = create_min_heap(unique_char_count);
 
     for (int i = 0; i < unique_char_count; ++i) {
-        minHeap->array[i] = unique1[i];
         splayHeap->array[i] = unique2[i];
     }
 
-    minHeap->size = unique_char_count;
     splayHeap->size = unique_char_count;
-    build_min_heap(minHeap);
     build_min_heap(splayHeap);
-    printf("\nAfter Heapification :\n");
-    for (int i = 0; i < minHeap->size; ++i)
-        printf("\n%c - %d", minHeap->array[i]->character, minHeap->array[i]->freq);
-    for (int i = 0; i < splayHeap->size; ++i)
-        printf("\n%c - %d", splayHeap->array[i]->character, splayHeap->array[i]->freq);
 
     printf("\n");
 
@@ -377,6 +365,8 @@ Node *encode_huffman_tree(MinHeap *minHeap) {
         printf("\nNew node frequency : %d\n", top->freq);
         top->left = left;
         top->right = right;
+        left->parent = top;
+        right->parent = top;
         insert_heap(minHeap, top);
         print_queue(minHeap);
     }
@@ -459,8 +449,14 @@ Node *splay_nodes(Node *node) {
         characters.push_back(x.first);
     }
 
-    for (auto y : characters) {
-        node = splay(node, y);
+    // sort characters based on map's second value
+    std::sort(characters.begin(), characters.end(),
+              [](const char &a, const char &b) { return unique[a] < unique[b]; });
+
+    for (auto x : characters) {
+        // splay the parent of the char
+        printf("\nSplaying the parent of %c\n", x);
+        node = splay(node, x);
     }
 
     return node;

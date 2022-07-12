@@ -6,6 +6,7 @@ struct Node {
     struct Node *right;
     int freq;       // frequency of character in file
     char character; // the character assigned to this node
+    struct Node *parent;
 };
 typedef struct Node Node;
 
