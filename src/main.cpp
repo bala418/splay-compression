@@ -4,7 +4,7 @@
 
 void intro() {
     char heading[100];
-    strcpy(heading, "Huffman Coding");
+    strcpy(heading, "Text Compression");
     printf("================>\t\t%s\t\t<================\n", heading);
     printf("\n - Lossless Data Compression technique");
     printf("\n - Encoding follows the prefix rule");
