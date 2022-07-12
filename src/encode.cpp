@@ -263,6 +263,7 @@ void print_all_codes() {
     printf("\n");
 }
 
+Node *unique2[256];
 // Calculate frequency of all characters
 void encode_frequency(char *file_name) {
 
@@ -281,6 +282,7 @@ void encode_frequency(char *file_name) {
 
     for (auto [k, v] : unique) {
         unique1[unique_char_count] = create_node(v, k);
+        unique2[unique_char_count] = create_node(0, k);
         unique_char_count++;
         std::cout << "\n"
                   << k << " - " << v;
@@ -288,19 +290,29 @@ void encode_frequency(char *file_name) {
     printf("\n");
 }
 
+MinHeap *splayHeap = nullptr;
+
 // function to build the heap
 MinHeap *build_heap() {
 
     struct MinHeap *minHeap = create_min_heap(unique_char_count);
+    splayHeap = create_min_heap(unique_char_count);
 
-    for (int i = 0; i < unique_char_count; ++i)
+    for (int i = 0; i < unique_char_count; ++i) {
         minHeap->array[i] = unique1[i];
+        splayHeap->array[i] = unique2[i];
+    }
 
     minHeap->size = unique_char_count;
+    splayHeap->size = unique_char_count;
     build_min_heap(minHeap);
+    build_min_heap(splayHeap);
     printf("\nAfter Heapification :\n");
     for (int i = 0; i < minHeap->size; ++i)
         printf("\n%c - %d", minHeap->array[i]->character, minHeap->array[i]->freq);
+    for (int i = 0; i < splayHeap->size; ++i)
+        printf("\n%c - %d", splayHeap->array[i]->character, splayHeap->array[i]->freq);
+
     printf("\n");
 
     return minHeap;
