@@ -79,7 +79,6 @@ void decode_file() {
         return;
     }
     char buffer;
-    int i = 0;
     int c;
     int flag = 0;
     char temp[20];
@@ -162,8 +161,6 @@ void decode_file_2(char *filenmae) {
     fp = fopen(filenmae, "rb");
     qp = fopen("uncompressed.txt", "w");
     char buffer;
-    char string[3000] = "";
-    char temp[20] = "";
     while (fread(&buffer, sizeof(char), 1, fp)) {
         char_to_binary(buffer);
     }

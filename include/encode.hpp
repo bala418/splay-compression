@@ -100,8 +100,6 @@ void WriteBit(int);
 // function to flush remaining bits
 void Flush_Bits();
 
-void wait();
-
 // indicates finishing of the process
 void encode_done();
 

@@ -33,7 +33,8 @@ run: $(BIN)/$(TARGET)
 	@echo "$(BLUE)Finished.$(NC)"
 
 clean:
-	rm -f $(BIN)/$(TARGET) $(OBJECT)
+	rm -f $(BIN)/$(TARGET) $(OBJECT) 
+	rm -f *.txt *.dat
 
 help:
 	@echo "src: $(SOURCE)"

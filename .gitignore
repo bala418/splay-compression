@@ -3,3 +3,5 @@ build/
 archive/
 *.o
 *.exe
+*.txt
+*.dat

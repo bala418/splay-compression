@@ -120,8 +120,6 @@ void encode_file() {
     }
     fclose(fp);
     printf("\n\nFile read complete\n");
-    char wait1 = getchar();
-    wait();
     if (c == 0) {
         printf("\nNo characters in file....");
         printf("\nEnter a file with content or enter content to a new file");
@@ -164,12 +162,6 @@ void encode_confirm(char *file_name) {
 
 // Print binary tree in tree form
 
-// wait for user input to continue
-void wait() {
-    printf("\nPress enter to continue......");
-    char wait = getchar();
-}
-
 int rec[1000006];
 // print tree in tree form
 void print_tree(struct Node *curr, int depth) {
@@ -195,7 +187,6 @@ void print_huffman_tree(Node *root) {
     printf("\n");
     print_tree(root, 0);
     printf("\n");
-    wait();
 }
 
 // create a node
@@ -270,7 +261,6 @@ void print_all_codes() {
         }
     }
     printf("\n");
-    wait();
 }
 
 // Calculate frequency of all characters
@@ -296,8 +286,6 @@ void encode_frequency(char *file_name) {
                   << k << " - " << v;
     }
     printf("\n");
-    char wait2 = getchar();
-    wait();
 }
 
 // function to build the heap
@@ -314,7 +302,6 @@ MinHeap *build_heap() {
     for (int i = 0; i < minHeap->size; ++i)
         printf("\n%c - %d", minHeap->array[i]->character, minHeap->array[i]->freq);
     printf("\n");
-    wait();
 
     return minHeap;
 }
@@ -364,7 +351,6 @@ Node *encode_huffman_tree(MinHeap *minHeap) {
     printf("\nBuilding the huffman tree\n");
     Node *left, *right, *top;
     print_queue(minHeap);
-    wait();
     while (minHeap->size != 1) {
         left = pop(minHeap);
         right = pop(minHeap);
@@ -376,9 +362,7 @@ Node *encode_huffman_tree(MinHeap *minHeap) {
         top->left = left;
         top->right = right;
         insert_heap(minHeap, top);
-        // sleep(2);
         print_queue(minHeap);
-        wait();
     }
     return pop(minHeap);
 }
@@ -458,15 +442,11 @@ void encode_to_files(char *file_name) {
     printf("\nEncoded file name : %s\n", encoded_file_name_b);
     printf("\nCode map for decoding present in : %s\n", codes_filename_b);
 
-    wait();
-
     printf("\nThe visual reprsentation of the binary files can be found in the below text files\n");
     printf("\nEncoded text file name : %s\n", encoded_file_name);
     printf("\nCode map for viewing present in : %s\n", codes_filename);
 
-    wait();
-
-    FILE *fp, *qp, *rp, *qbp, *rbp;
+    FILE *fp, *qp, *rp, *rbp;
     ;
 
     fp = fopen(file_name, "r");
@@ -566,5 +546,4 @@ void encode_done() {
     compression_ratio = compression_ratio * 100;
     printf("\nCompression ratio : %.2f%%\n", compression_ratio);
     printf("\nEncoding completed successfully....\n");
-    wait();
 }
