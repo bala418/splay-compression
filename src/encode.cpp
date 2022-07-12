@@ -243,6 +243,9 @@ void encode_begin(char *file_name) {
 
     print_huffman_tree(root);
 
+    root = splay_nodes(root);
+    print_tree(root, 0);
+
     reach_leaf_nodes(root, arr, 0);
 
     print_all_codes();
@@ -264,12 +267,13 @@ void print_all_codes() {
 }
 
 Node *unique2[256];
+std::map<char, int> unique;
 // Calculate frequency of all characters
 void encode_frequency(char *file_name) {
 
     FILE *fp;
     fp = fopen(file_name, "r");
-    std::map<char, int> unique;
+
     unique_char_count = 0;
 
     char ch;
@@ -282,7 +286,7 @@ void encode_frequency(char *file_name) {
 
     for (auto [k, v] : unique) {
         unique1[unique_char_count] = create_node(v, k);
-        unique2[unique_char_count] = create_node(0, k);
+        unique2[unique_char_count] = create_node(1, k);
         unique_char_count++;
         std::cout << "\n"
                   << k << " - " << v;
@@ -315,7 +319,7 @@ MinHeap *build_heap() {
 
     printf("\n");
 
-    return minHeap;
+    return splayHeap;
 }
 
 // function to create the minheap
@@ -400,6 +404,66 @@ void insert_heap(struct MinHeap *minHeap, struct Node *minHeapNode) {
         i = (i - 1) / 2;
     }
     minHeap->array[i] = minHeapNode;
+}
+
+Node *rightRotate(Node *x) {
+    Node *y = x->left;
+    x->left = y->right;
+    y->right = x;
+    return y;
+}
+Node *leftRotate(Node *x) {
+    Node *y = x->right;
+    x->right = y->left;
+    y->left = x;
+    return y;
+}
+Node *splay(Node *root, char character) {
+    if (root == NULL || root->character == character)
+        return root;
+
+    if (root->character > character) {
+        if (root->left == NULL)
+            return root;
+
+        if (root->left->character > character) {
+            root->left->left = splay(root->left->left, character);
+            root = rightRotate(root);
+        } else if (root->left->character < character) {
+            root->left->right = splay(root->left->right, character);
+            if (root->left->right != NULL)
+                root->left = leftRotate(root->left);
+        }
+        return (root->left == NULL) ? root : rightRotate(root);
+    } else {
+        if (root->right == NULL)
+            return root;
+        if (root->right->character > character) {
+            root->right->left = splay(root->right->left, character);
+            if (root->right->left != NULL)
+                root->right = rightRotate(root->right);
+        } else if (root->right->character < character) {
+            root->right->right = splay(root->right->right, character);
+            root = leftRotate(root);
+        }
+        return (root->right == NULL) ? root : leftRotate(root);
+    }
+}
+
+// function to splay the nodes according to the frequency
+Node *splay_nodes(Node *node) {
+
+    // insert the characters to a vector
+    std::vector<char> characters;
+    for (auto x : unique) {
+        characters.push_back(x.first);
+    }
+
+    for (auto y : characters) {
+        node = splay(node, y);
+    }
+
+    return node;
 }
 
 // function to reach the leaf nodes

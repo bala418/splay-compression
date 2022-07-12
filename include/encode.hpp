@@ -64,6 +64,16 @@ void build_min_heap(MinHeap *min_heap);
 // function to build the huffman tree
 Node *encode_huffman_tree(MinHeap *min_heap);
 
+// function to splay the nodes according to the frequency
+Node *splay_nodes(Node *node);
+
+// splay the node
+Node *splay(Node *node, char character);
+
+// right and left rotate
+Node *rightRotate(Node *node);
+Node *leftRotate(Node *node);
+
 // wrapper function to print the huffman tree
 void print_huffman_tree();
 
